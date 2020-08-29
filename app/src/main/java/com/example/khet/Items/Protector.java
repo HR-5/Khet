@@ -1,14 +1,51 @@
 package com.example.khet.Items;
 
 public class Protector {
-    String color;
+    int color;
     int posx,posy;
 
-    public String getColor() {
+    public void up(){
+        posy--;
+    }
+
+    public void down() {
+        posy++;
+    }
+
+    public void left(){
+        posx--;
+    }
+    public void right(){
+        posx++;
+    }
+
+    public void ul(){
+        posx--;
+        posy--;
+    }
+
+    public void ur(){
+        posx++;
+        posy--;
+    }
+    public void dl(){
+        posx--;
+        posy++;
+    }
+
+    public void dr(){
+        posx++;
+        posy++;
+    }
+
+    public Protector() {
+    }
+
+    public int getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(int color) {
         this.color = color;
     }
 
@@ -28,7 +65,7 @@ public class Protector {
         this.posy = posy;
     }
 
-    public Protector(String color, int posx, int posy) {
+    public Protector(int color, int posx, int posy) {
         this.color = color;
         this.posx = posx;
         this.posy = posy;
