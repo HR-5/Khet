@@ -409,7 +409,7 @@ public class MyCanvas extends View {
         }else {
             for (int i = 0; i <omirrorsB.size(); i++) {
                 if(omirrorsB.get(i).getPosx()==xCo&&omirrorsB.get(i).getPosy()==yCo){
-                    omirror = omirrorsR.get(i);
+                    omirror = omirrorsB.get(i);
                     id = i;
                     break;
                 }
@@ -431,6 +431,10 @@ public class MyCanvas extends View {
             omirror.dl();
         else if(move==7)
             omirror.dr();
+        else if(move==8)
+            omirror.rc();
+        else if(move==9)
+            omirror.ra();
         if(redplay)
             omirrorsR.set(id,omirror);
         else
@@ -445,16 +449,55 @@ public class MyCanvas extends View {
                 if (box[xCo][yCo] == 0)
                     return;
                 else if (box[xCo][yCo] == 1) {
-                    box[xCo][yCo] = 0;
-                    box[xCo][yCo-1] = 1;
-                    if (redplay) {
-                        if(redcoin[xCo][yCo]==1){
-                          redcoin[xCo][yCo] = 0;
-                          redcoin[xCo][yCo-1] = 1;
-                          changeO(0);
+                    if (box[xCo][yCo - 1] == 0) {
+                        if (redplay) {
+                            if (redcoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo][yCo - 1] = 1;
+                                redcoin[xCo][yCo] = 0;
+                                redcoin[xCo][yCo - 1] = 1;
+                                changeO(0);
+                                redplay = false;
+                                play = false;
+                            }
+                        } else {
+                            if (bluecoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo][yCo - 1] = 1;
+                                bluecoin[xCo][yCo] = 0;
+                                bluecoin[xCo][yCo - 1] = 1;
+                                changeO(0);
+                                redplay = true;
+                                play = false;
+                            }
+                        }
+
+                    }
+                }
+                else if(box[xCo][yCo]==4){
+                    if (box[xCo][yCo - 1] == 0) {
+                        if (redplay) {
+                            if (redcoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo][yCo - 1] = 4;
+                                redcoin[xCo][yCo] = 0;
+                                redcoin[xCo][yCo - 1] = 1;
+                                kingR.setPosy(yCo-1);
+                                redplay = false;
+                                play = false;
+                            }
+                        } else {
+                            if (bluecoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo][yCo - 1] = 4;
+                                bluecoin[xCo][yCo] = 0;
+                                bluecoin[xCo][yCo - 1] = 1;
+                                kingB.setPosy(yCo-1);
+                                redplay = true;
+                                play = false;
+                            }
                         }
                     }
-
                 }
             }
         }
@@ -462,30 +505,479 @@ public class MyCanvas extends View {
     }
 
     public void downmove() {
+        if(play) {
+            mcan.drawColor(white);
+            if (yCo < 7) {
+                if (box[xCo][yCo] == 0)
+                    return;
+                else if (box[xCo][yCo] == 1) {
+                    if (box[xCo][yCo + 1] == 0) {
+                        if (redplay) {
+                            if (redcoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo][yCo + 1] = 1;
+                                redcoin[xCo][yCo] = 0;
+                                redcoin[xCo][yCo + 1] = 1;
+                                changeO(1);
+                                redplay = false;
+                                play = false;
+                            }
+                        } else {
+                            if (bluecoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo][yCo + 1] = 1;
+                                bluecoin[xCo][yCo] = 0;
+                                bluecoin[xCo][yCo + 1] = 1;
+                                changeO(1);
+                                redplay = true;
+                                play = false;
+                            }
+                        }
+
+                    }
+                }
+                else if(box[xCo][yCo]==4){
+                    if (box[xCo][yCo + 1] == 0) {
+                        if (redplay) {
+                            if (redcoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo][yCo + 1] = 4;
+                                redcoin[xCo][yCo] = 0;
+                                redcoin[xCo][yCo + 1] = 1;
+                                kingR.setPosy(yCo+1);
+                                redplay = false;
+                                play = false;
+                            }
+                        } else {
+                            if (bluecoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo][yCo + 1] = 4;
+                                bluecoin[xCo][yCo] = 0;
+                                bluecoin[xCo][yCo + 1] = 1;
+                                kingB.setPosy(yCo+1);
+                                redplay = true;
+                                play = false;
+                            }
+                        }
+                    }
+                }
+            }
+            invalidate();
+        }
     }
 
     public void leftmove() {
+        if(play) {
+            mcan.drawColor(white);
+            if (xCo > 0) {
+                if (box[xCo][yCo] == 0)
+                    return;
+                else if (box[xCo][yCo] == 1) {
+                    if (box[xCo-1][yCo] == 0) {
+                        if (redplay) {
+                            if (redcoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo-1][yCo] = 1;
+                                redcoin[xCo][yCo] = 0;
+                                redcoin[xCo-1][yCo] = 1;
+                                changeO(2);
+                                redplay = false;
+                                play = false;
+                            }
+                        } else {
+                            if (bluecoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo-1][yCo] = 1;
+                                bluecoin[xCo][yCo] = 0;
+                                bluecoin[xCo-1][yCo] = 1;
+                                changeO(2);
+                                redplay = true;
+                                play = false;
+                            }
+                        }
+
+                    }
+                }
+                else if(box[xCo][yCo]==4){
+                    if (box[xCo-1][yCo] == 0) {
+                        if (redplay) {
+                            if (redcoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo-1][yCo] = 4;
+                                redcoin[xCo][yCo] = 0;
+                                redcoin[xCo-1][yCo] = 1;
+                                kingR.setPosx(xCo-1);
+                                redplay = false;
+                                play = false;
+                            }
+                        } else {
+                            if (bluecoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo-1][yCo] = 4;
+                                bluecoin[xCo][yCo] = 0;
+                                bluecoin[xCo-1][yCo] = 1;
+                                kingB.setPosx(xCo-1);
+                                redplay = true;
+                                play = false;
+                            }
+                        }
+                    }
+                }
+            }
+            invalidate();
+        }
     }
 
     public void rightmove() {
+        if(play) {
+            mcan.drawColor(white);
+            if (xCo < 9) {
+                if (box[xCo][yCo] == 0)
+                    return;
+                else if (box[xCo][yCo] == 1) {
+                    if (box[xCo+1][yCo] == 0) {
+                        if (redplay) {
+                            if (redcoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo+1][yCo] = 1;
+                                redcoin[xCo][yCo] = 0;
+                                redcoin[xCo+1][yCo] = 1;
+                                changeO(3);
+                                redplay = false;
+                                play = false;
+                            }
+                        } else {
+                            if (bluecoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo+1][yCo] = 1;
+                                bluecoin[xCo][yCo] = 0;
+                                bluecoin[xCo+1][yCo] = 1;
+                                changeO(3);
+                                redplay = true;
+                                play = false;
+                            }
+                        }
+
+                    }
+                }
+                else if(box[xCo][yCo]==4){
+                    if (box[xCo+1][yCo] == 0) {
+                        if (redplay) {
+                            if (redcoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo+1][yCo] = 4;
+                                redcoin[xCo][yCo] = 0;
+                                redcoin[xCo+1][yCo] = 1;
+                                kingR.setPosx(xCo+1);
+                                redplay = false;
+                                play = false;
+                            }
+                        } else {
+                            if (bluecoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo+1][yCo] = 4;
+                                bluecoin[xCo][yCo] = 0;
+                                bluecoin[xCo+1][yCo] = 1;
+                                kingB.setPosx(xCo+1);
+                                redplay = true;
+                                play = false;
+                            }
+                        }
+                    }
+                }
+            }
+            invalidate();
+        }
     }
 
     public void ulmove() {
+        if(play) {
+            mcan.drawColor(white);
+            if (xCo > 0&&yCo>0) {
+                if (box[xCo][yCo] == 0)
+                    return;
+                else if (box[xCo][yCo] == 1) {
+                    if (box[xCo-1][yCo-1] == 0) {
+                        if (redplay) {
+                            if (redcoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo-1][yCo-1] = 1;
+                                redcoin[xCo][yCo] = 0;
+                                redcoin[xCo-1][yCo-1] = 1;
+                                changeO(4);
+                                redplay = false;
+                                play = false;
+                            }
+                        } else {
+                            if (bluecoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo-1][yCo-1] = 1;
+                                bluecoin[xCo][yCo] = 0;
+                                bluecoin[xCo-1][yCo-1] = 1;
+                                changeO(4);
+                                redplay = true;
+                                play = false;
+                            }
+                        }
+
+                    }
+                }
+                else if(box[xCo][yCo]==4){
+                    if (box[xCo-1][yCo-1] == 0) {
+                        if (redplay) {
+                            if (redcoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo-1][yCo-1] = 4;
+                                redcoin[xCo][yCo] = 0;
+                                redcoin[xCo-1][yCo-1] = 1;
+                                kingR.setPosx(xCo-1);
+                                kingR.setPosy(yCo-1);
+                                redplay = false;
+                                play = false;
+                            }
+                        } else {
+                            if (bluecoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo-1][yCo-1] = 4;
+                                bluecoin[xCo][yCo] = 0;
+                                bluecoin[xCo-1][yCo-1] = 1;
+                                kingB.setPosx(xCo-1);
+                                kingB.setPosy(yCo-1);
+                                redplay = true;
+                                play = false;
+                            }
+                        }
+                    }
+                }
+            }
+            invalidate();
+        }
     }
 
     public void urmove() {
+        if(play) {
+            mcan.drawColor(white);
+            if (xCo < 9&&yCo>0) {
+                if (box[xCo][yCo] == 0)
+                    return;
+                else if (box[xCo][yCo] == 1) {
+                    if (box[xCo+1][yCo-1] == 0) {
+                        if (redplay) {
+                            if (redcoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo+1][yCo-1] = 1;
+                                redcoin[xCo][yCo] = 0;
+                                redcoin[xCo+1][yCo-1] = 1;
+                                changeO(5);
+                                redplay = false;
+                                play = false;
+                            }
+                        } else {
+                            if (bluecoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo+1][yCo-1] = 1;
+                                bluecoin[xCo][yCo] = 0;
+                                bluecoin[xCo+1][yCo-1] = 1;
+                                changeO(5);
+                                redplay = true;
+                                play = false;
+                            }
+                        }
+
+                    }
+                }
+                else if(box[xCo][yCo]==4){
+                    if (box[xCo+1][yCo-1] == 0) {
+                        if (redplay) {
+                            if (redcoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo+1][yCo-1] = 4;
+                                redcoin[xCo][yCo] = 0;
+                                redcoin[xCo+1][yCo-1] = 1;
+                                kingR.setPosx(xCo+1);
+                                kingR.setPosy(yCo-1);
+                                redplay = false;
+                                play = false;
+                            }
+                        } else {
+                            if (bluecoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo+1][yCo-1] = 4;
+                                bluecoin[xCo][yCo] = 0;
+                                bluecoin[xCo+1][yCo-1] = 1;
+                                kingB.setPosx(xCo+1);
+                                kingB.setPosy(yCo-1);
+                                redplay = true;
+                                play = false;
+                            }
+                        }
+                    }
+                }
+            }
+            invalidate();
+        }
     }
 
     public void drmove() {
+        if(play) {
+            mcan.drawColor(white);
+            if (xCo < 9&&yCo<7) {
+                if (box[xCo][yCo] == 0)
+                    return;
+                else if (box[xCo][yCo] == 1) {
+                    if (box[xCo+1][yCo+1] == 0) {
+                        if (redplay) {
+                            if (redcoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo+1][yCo+1] = 1;
+                                redcoin[xCo][yCo] = 0;
+                                redcoin[xCo+1][yCo+1] = 1;
+                                changeO(7);
+                                redplay = false;
+                                play = false;
+                            }
+                        } else {
+                            if (bluecoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo+1][yCo+1] = 1;
+                                bluecoin[xCo][yCo] = 0;
+                                bluecoin[xCo+1][yCo+1] = 1;
+                                changeO(7);
+                                redplay = true;
+                                play = false;
+                            }
+                        }
+
+                    }
+                }
+                else if(box[xCo][yCo]==4){
+                    if (box[xCo+1][yCo+1] == 0) {
+                        if (redplay) {
+                            if (redcoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo+1][yCo+1] = 4;
+                                redcoin[xCo][yCo] = 0;
+                                redcoin[xCo+1][yCo+1] = 1;
+                                kingR.setPosx(xCo+1);
+                                kingR.setPosy(yCo+1);
+                                redplay = false;
+                                play = false;
+                            }
+                        } else {
+                            if (bluecoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo+1][yCo+1] = 4;
+                                bluecoin[xCo][yCo] = 0;
+                                bluecoin[xCo+1][yCo+1] = 1;
+                                kingB.setPosx(xCo+1);
+                                kingB.setPosy(yCo+1);
+                                redplay = true;
+                                play = false;
+                            }
+                        }
+                    }
+                }
+
+            }
+            invalidate();
+        }
     }
 
     public void dlmove() {
+        if(play) {
+            mcan.drawColor(white);
+            if (xCo > 0&&yCo<7) {
+                if (box[xCo][yCo] == 0)
+                    return;
+                else if (box[xCo][yCo] == 1) {
+                    if (box[xCo-1][yCo+1] == 0) {
+                        if (redplay) {
+                            if (redcoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo-1][yCo+1] = 1;
+                                redcoin[xCo][yCo] = 0;
+                                redcoin[xCo-1][yCo+1] = 1;
+                                changeO(6);
+                                redplay = false;
+                                play = false;
+                            }
+                        } else {
+                            if (bluecoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo-1][yCo+1] = 1;
+                                bluecoin[xCo][yCo] = 0;
+                                bluecoin[xCo-1][yCo+1] = 1;
+                                changeO(6);
+                                redplay = true;
+                                play = false;
+                            }
+                        }
+
+                    }
+                }
+                else if(box[xCo][yCo]==4){
+                    if (box[xCo-1][yCo+1] == 0) {
+                        if (redplay) {
+                            if (redcoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo-1][yCo+1] = 4;
+                                redcoin[xCo][yCo] = 0;
+                                redcoin[xCo-1][yCo+1] = 1;
+                                kingR.setPosx(xCo-1);
+                                kingR.setPosy(yCo+1);
+                                redplay = false;
+                                play = false;
+                            }
+                        } else {
+                            if (bluecoin[xCo][yCo] == 1) {
+                                box[xCo][yCo] = 0;
+                                box[xCo-1][yCo+1] = 4;
+                                bluecoin[xCo][yCo] = 0;
+                                bluecoin[xCo-1][yCo+1] = 1;
+                                kingB.setPosx(xCo-1);
+                                kingB.setPosy(yCo+1);
+                                redplay = true;
+                                play = false;
+                            }
+                        }
+                    }
+                }
+
+            }
+            invalidate();
+        }
     }
 
     public void rcmove() {
+        if(play){
+            mcan.drawColor(white);
+            if(box[xCo][yCo]==0)
+                return;
+            else if(box[xCo][yCo]==1)
+                changeO(8);
+        }
+        invalidate();
     }
 
     public void ramove() {
+        if(play){
+            mcan.drawColor(white);
+            if(box[xCo][yCo]==0)
+                return;
+            else if(box[xCo][yCo]==1) {
+                if (redplay){
+                    changeO(9);
+                    redplay = false;
+                    play = false;
+                }
+                else {
+                    changeO(9);
+                    redplay = true;
+                    play = false;
+                }
+            }
+        }
+        invalidate();
     }
 }
 
